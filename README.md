@@ -1,3 +1,19 @@
+JsonRestFixture: Extending RestFixture to accommodate Json REST testing by non-developers
+=========================================================================================
+JsonRestFixture has been forked from RestFixture primarily to:
+1. Fix a Fitnesse html-formatting bug (fixed by commit/pull request #69 cloneURL: https://github.com/nuggit32/RestFixture.git and possibly fixed in Fitnesse version 20140901 - not confirmed.)
+2. Add Json library tools to enable users to do String-based comparing instead of XPath comparing.
+
+
+Changes 20140917
+- update pom with newer versions including Fitnesse updated to 20140901.
+
+
+
+
+
+
+[Old - RestFixture README-notes
 RestFixture: A FitNesse fixture for testing REST services
 =========================================================
 
@@ -43,7 +59,7 @@ If the build fails because smartrics-RestClient can't be found, check the pom.xm
 Build: Releases up to 2.0
 -------------------------
 
-To build RestFixture add a property file in the properties directory named <your.os.username>.properties 
+To build RestFixture add a property file in the properties directory named <your.os.username>.properties
 by copying and customising build.properties if necessary.
 
 Use
@@ -55,19 +71,19 @@ or
 > ant full
 
 to run the default target (this will build the Rest Fixture, start a local instance
-of FitNesse on port 7070 and run the fitnesse tests in src/test/cat. 
+of FitNesse on port 7070 and run the fitnesse tests in src/test/cat.
 
-You can also pass a build properties file to ant with 
+You can also pass a build properties file to ant with
 
 > ant -Dproperties=<my.bespoke.file>.properties
 
-If it all succeeds a distribution of the RestFixture is available in dist/ alongside with the latest 
+If it all succeeds a distribution of the RestFixture is available in dist/ alongside with the latest
 documentation. Reports of tests and metrics are available in build/reports
 
 The (missing!) logger framework dependency
 ------------------------------------------
 
-The RestFixture uses slf4j-api; if no logger implementation is provided slf4j defaults to nop binding. 
+The RestFixture uses slf4j-api; if no logger implementation is provided slf4j defaults to nop binding.
 Please download and add to the classpath your binding of choice (and the respective configuration file).
 
 The current version is slf4j-api-1.6.6, hence download the matching version of the binding implementation.
@@ -97,6 +113,6 @@ For example, let's assume that you have succesfully built the RestFixture in C:/
 |Table:smartrics.rest.fitnesse.fixture.RestFixture | http://localhost:8090 |
 | GET | /RestFixtureInstallTest?rss | | | //title[text()='RestFixtureInstallTest']|
 </pre>
- 
-4. Execute the test. If it passes, you have succesfully installed the RestFixture. You'll also know how to reference it's jar and dependencies.
- 
+
+4. Execute the test. If it passes, you have succesfully installed the RestFixture. You'll also know how to reference it's jar and dependencies.]
+
