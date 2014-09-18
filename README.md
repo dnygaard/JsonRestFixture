@@ -5,15 +5,24 @@ JsonRestFixture has been forked from RestFixture primarily to:
 2. Add Json library tools to enable users to do String-based comparing instead of XPath comparing.
 
 
+Changes 20140918
+- Add JsonRestFixture to accomodate Json string specific REST call testing.
+(See JsonRestFixture API for details.)
+- Add Jackson Json tools.
+
+- Developers must add new Json libraries to Fitnesse lib directory.
+
+
 Changes 20140917
-- update pom with newer versions including Fitnesse updated to 20140901.
+- Update pom with newer versions including Fitnesse updated to 20140901.
 
 
 
 
-
+--------------------------------------------------------------------------
 
 [Old - RestFixture README-notes
+===============================
 RestFixture: A FitNesse fixture for testing REST services
 =========================================================
 
