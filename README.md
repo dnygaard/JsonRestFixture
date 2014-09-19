@@ -10,6 +10,8 @@ Changes 20140918
 (See JsonRestFixture API for details.)
 - Add Jackson Json tools.
 
+- Requirement update: now uses Java 1.7. 
+
 - Developers must add new Json libraries to Fitnesse lib directory.
 
 
