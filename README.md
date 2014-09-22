@@ -5,13 +5,13 @@ Let testers test Json REST calls writing tests in FitNesse framework (http://fit
 
 Background
 ----------
-RestFixture is a good tool to do technical REST call tesing. What it lacks is a non-developer-friendly interface.
+RestFixture is a good tool to do technical REST call testing. What it lacks is a non-developer-friendly interface.
 
 JsonRestFixture has been forked from RestFixture primarily to:
 1. Fix a Fitnesse html-formatting bug (fixed by commit/pull request #69 cloneURL: https://github.com/nuggit32/RestFixture.git and possibly fixed in Fitnesse version 20140901 - not confirmed.)
 2. Add Json library tools to enable users to do String-based Json comparing instead of XPath comparing.
 
-The fixture allows test writers to express tests as actions (any of the
+The fixture allows test-writers to express tests as actions (any of the
 allowed HTTP methods) to operate on resource URIs and express expectations on
 the content of the return code, headers and body. All without writing one
 single line of Java code.
@@ -38,8 +38,8 @@ Forked 20140916 from  RestFixture (https://github.com/smartrics/RestFixture)
 
 RestFixture Documentation
 --------------------------
-https://github.com/smartrics/RestFixture
-http://github.com/smartrics/RestFixtureLiveDoc
+- https://github.com/smartrics/RestFixture
+- http://github.com/smartrics/RestFixtureLiveDoc
 
 Install
 --------
@@ -48,14 +48,17 @@ Using Java 1.7 or newer, build code:
 
 Install FitNesse - see FitNesse documentations for details.
 
-Deploy build JsonRestFixture.jar and *all other libraries* from ./target/ and ./target/dependencies/ directories respectvily to the FitNesse ./lib/ directory.
+Deploy built JsonRestFixture.jar and *all other libraries* from ./target/ and ./target/dependencies/ directories respectvily to the FitNesse ./lib/ directory.
 
 Start up FitNesse:
 >java -jar fitnesse-standalone.jar 
 
+Open the FitNesse test in your browser:
+>http://localhost/
 
-Do Json REST call specific testing
-----------------------------------
+
+Json REST call specific FitNesse test
+-------------------------------------
 
 <pre>
 !define TEST_SYSTEM {slim}
