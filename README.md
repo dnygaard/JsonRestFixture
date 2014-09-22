@@ -5,11 +5,13 @@ Let testers test Json REST calls writing tests in FitNesse framework (http://fit
 
 Background
 ----------
-RestFixture is a good tool to do technical REST call testing. What it lacks is a non-developer-friendly interface.
+RestFixture (https://github.com/smartrics/RestFixture) is a good tool to do technical REST call testing. What it lacks is a non-developer-friendly interface.
 
 JsonRestFixture has been forked from RestFixture primarily to:
-1. Fix a Fitnesse html-formatting bug (fixed by commit/pull request #69 cloneURL: https://github.com/nuggit32/RestFixture.git and possibly fixed in Fitnesse version 20140901 - not confirmed.)
-2. Add Json library tools to enable users to do String-based Json comparing instead of XPath comparing.
+
+1. Fix a Fitnesse html-formatting bug (fixed by commit/pull request #69 cloneURL: https://github.com/nuggit32/RestFixture.git)
+
+2. Add Json library tools to enable users to do String-based Json comparing and not just XPath comparing.
 
 The fixture allows test-writers to express tests as actions (any of the
 allowed HTTP methods) to operate on resource URIs and express expectations on
