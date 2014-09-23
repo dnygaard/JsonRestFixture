@@ -1,6 +1,6 @@
 JsonRestFixture
 ===============
-Let testers test Json REST calls writing tests in FitNesse framework (http://fitnesse.org).
+Test or verify Json REST calls using the FitNesse framework (http://fitnesse.org).
 
 
 Background
@@ -45,12 +45,13 @@ RestFixture Documentation
 
 Install
 --------
-Using Java 1.7 or newer, build code:
->mvn clean package
 
 Install FitNesse - see FitNesse documentations for details.
 
-Deploy built JsonRestFixture.jar and *all other libraries* from ./target/ and ./target/dependencies/ directories respectvily to the FitNesse ./lib/ directory.
+Using Java 1.7 or newer, build code:
+>mvn clean package
+
+Deploy built JsonRestFixture.jar and *all other libraries* build above, i.e. from ./target/ and ./target/dependencies/ directories respectvily to the FitNesse ./lib/ directory.
 
 Start up FitNesse:
 >java -jar fitnesse-standalone.jar 
@@ -59,8 +60,13 @@ Open the FitNesse test in your browser:
 >http://localhost/
 
 
-Json REST call specific FitNesse test
--------------------------------------
+Test Json REST Calls Example
+----------------------------
+The new functions in JsonRestFixture are:
+- copyJsonbodyToFile: copy last HTTP Responsebody to a file iff the content is *'application/json'*.
+- showJsonFileContent: prettyPrint Json filecontents.
+- jsCompare: compare Json contents of two parameters, either file or string.
+
 
 <pre>
 !define TEST_SYSTEM {slim}
@@ -93,13 +99,13 @@ The file is the same one as used above.
 |!-Table:smartrics.rest.fitnesse.fixture.JsonRestFixture-! |http://localhost|
 | showJsonFileContent |./files/fileAAA.txt| |
 
+
 !3 Do some Json comparisons on strings and files.
 
 The file is the same as the one used above.
 
-
 |!-Table:smartrics.rest.fitnesse.fixture.JsonRestFixture-! |http://localhost|
-| jsCompare |false|{ "name":"Norway","id":2,"cars":[{"make":"GM","color":"blue"},{"make":"BMW","color":"red"}]}  |{"id":2,"name":"Norway","cars":[{"make":"GM","color":"blue"},{"make":"BMW","color":"red"}]}| Green -  Should not find any deviations - this comment is ignored.|
+| jsCompare |false|{ "name":"Norway","id":2,"cars":[{"make":"GM","color":"blue"},{"make":"BMW","color":"red"}]}  |{"id":2,"name":"Norway","cars":[{"make":"GM","color":"blue"},{"make":"BMW","color":"red"}]}| |
 | jsCompare |false| ./files/fileAAA.txt |{"RestResponse" : { "result" : [ {"name" : "Northern Mariana Islands", "alpha2_code" : "MP","alpha3_code" : "MNP"},{"name" : "Norway", "alpha2_code" : "NO", "alpha3_code" : "NOR"}]}} ||
 | jsCompare |true| ./files/fileAAA.txt |./files/fileAAA.txt ||
 </pre>
