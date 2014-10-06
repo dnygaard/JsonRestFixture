@@ -20,18 +20,17 @@
  */
 package smartrics.rest.fitnesse.fixture;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
+import org.junit.Test;
+import smartrics.rest.fitnesse.fixture.support.StringTypeAdapter;
+import smartrics.rest.fitnesse.fixture.support.TextBodyTypeAdapter;
+import smartrics.rest.fitnesse.fixture.support.Tools;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 
-import org.junit.Test;
-
-import smartrics.rest.fitnesse.fixture.support.StringTypeAdapter;
-import smartrics.rest.fitnesse.fixture.support.TextBodyTypeAdapter;
-import smartrics.rest.fitnesse.fixture.support.Tools;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 
 public class SlimFormatterTest {
 

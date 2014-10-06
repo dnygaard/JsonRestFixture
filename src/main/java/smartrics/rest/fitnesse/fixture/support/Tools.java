@@ -20,23 +20,17 @@
  */
 package smartrics.rest.fitnesse.fixture.support;
 
-import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.io.StringWriter;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.Charset;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Random;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+import com.thoughtworks.xstream.io.HierarchicalStreamDriver;
+import com.thoughtworks.xstream.io.HierarchicalStreamReader;
+import com.thoughtworks.xstream.io.copy.HierarchicalStreamCopier;
+import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
+import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
 import javax.xml.namespace.NamespaceContext;
@@ -49,24 +43,13 @@ import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-
-import com.thoughtworks.xstream.io.HierarchicalStreamDriver;
-import com.thoughtworks.xstream.io.HierarchicalStreamReader;
-import com.thoughtworks.xstream.io.copy.HierarchicalStreamCopier;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
-import com.thoughtworks.xstream.io.xml.PrettyPrintWriter;
+import javax.xml.xpath.*;
+import java.io.*;
+import java.nio.charset.Charset;
+import java.util.*;
+import java.util.Map.Entry;
+import java.util.regex.Pattern;
+import java.util.regex.PatternSyntaxException;
 
 /**
  * Misc tool methods for string/xml/xpath manipulation.
@@ -558,10 +541,10 @@ public final class Tools {
 	 * @return the html.
 	 */
 	public static String toHtml(String text) {
-		return text.replaceAll("<pre>", "").replaceAll("</pre>", "")
-				.replaceAll("<", "&lt;").replaceAll(">", "&gt;")
-				.replaceAll("\n", "<br/>").replaceAll("\t", "    ")
-				.replaceAll(" ", "&nbsp;").replaceAll("-----", "<hr/>");
+        return text.replaceAll("<pre>", "").replaceAll("</pre>", "")
+                .replaceAll("<", "&lt;").replaceAll(">", "&gt;")
+                .replaceAll("\n", "<br/>").replaceAll("\t", "    ")
+                .replaceAll(" ", "&nbsp;").replaceAll("-----", "<hr/>");
 	}
 
 	/**
@@ -603,7 +586,7 @@ public final class Tools {
 	 * @return the string htmlified as a fitnesse label.
 	 */
 	public static String toHtmlLabel(String string) {
-		return "<i><span class='fit_label'>" + string + "</span></i>";
+        return "<i><span class='fit_label'>" + string + "</span></i>";
 	}
 
 	/**
@@ -614,7 +597,7 @@ public final class Tools {
 	 * @return the string htmlified as a html link.
 	 */
 	public static String toHtmlLink(String href, String text) {
-		return "<a href='" + href + "'>" + text + "</a>";
+        return "<a href='" + href + "'>" + text + "</a>";
 	}
 
 	/**
@@ -641,8 +624,7 @@ public final class Tools {
 			sb.append(toHtml("-----"));
 			sb.append(toHtml("\n"));
 			if (minLenForToggle >= 0 && actual.length() > minLenForToggle) {
-				sb.append(makeToggleCollapseable("toggle actual",
-						toHtml(actual)));
+				sb.append(makeToggleCollapseable("toggle actual", toHtml(actual)));
 			} else {
 				sb.append(toHtml(actual));
 			}
@@ -679,14 +661,13 @@ public final class Tools {
 		StringBuffer sb = new StringBuffer();
 		sb.append(toHtml(expected));
 		String actual = typeAdapter.toString();
-		if (formatter.isDisplayActual() && !expected.equals(actual)) {		  
+        if (formatter.isDisplayActual() && !expected.equals(actual)) {
 			sb.append(toHtml("\n"));
 			sb.append(formatter.label("expected"));
 			sb.append(toHtml("-----"));
 			sb.append(toHtml("\n"));
 			if (minLenForToggle >= 0 && actual.length() > minLenForToggle) {
-				sb.append(makeToggleCollapseable("toggle actual",
-						toHtml(actual)));
+				sb.append(makeToggleCollapseable("toggle actual", toHtml(actual)));
 			} else {
 				sb.append(toHtml(actual));
 			}

@@ -20,12 +20,12 @@
  */
 package smartrics.rest.fitnesse.fixture;
 
-import java.util.List;
-
-import smartrics.rest.fitnesse.fixture.support.Config;
-import smartrics.rest.fitnesse.fixture.support.Tools;
 import fit.Fixture;
 import fit.Parse;
+import smartrics.rest.fitnesse.fixture.support.Config;
+import smartrics.rest.fitnesse.fixture.support.Tools;
+
+import java.util.List;
 
 /**
  * A simple fixture to store configuration data for the rest fixture.
@@ -115,7 +115,6 @@ public class RestFixtureConfig extends Fixture {
 	 * 
 	 */
 	public RestFixtureConfig() {
-
 	}
 
 	/**

@@ -40,6 +40,9 @@ public class FitFormatter implements CellFormatter<Parse> {
     private boolean displayActual;
     private int minLenForToggle = -1;
 
+    public FitFormatter() {
+    }
+    
     /**
      * sets the action fixture delegate to forward formatting messages.
      * @param f
