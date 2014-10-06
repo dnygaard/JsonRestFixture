@@ -20,13 +20,13 @@
  */
 package smartrics.rest.fitnesse.fixture;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
-
 import smartrics.rest.fitnesse.fixture.support.CellFormatter;
 import smartrics.rest.fitnesse.fixture.support.CellWrapper;
 import smartrics.rest.fitnesse.fixture.support.RestDataTypeAdapter;
 import smartrics.rest.fitnesse.fixture.support.Tools;
+
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 
 /**
  * Formatter of cells handled by Slim.
@@ -39,6 +39,9 @@ public class SlimFormatter implements CellFormatter<String> {
     private int minLenForToggle = -1;
     private boolean displayActual;
 
+    public SlimFormatter() {
+    }
+    
     @Override
     public void setDisplayActual(boolean d) {
         this.displayActual = d;
@@ -63,8 +66,10 @@ public class SlimFormatter implements CellFormatter<String> {
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         PrintStream ps = new PrintStream(out);
         exception.printStackTrace(ps);
+        //String m = Tools.toHtml(cell.getWrapped() + "\n-----\n") + Tools.toCode(Tools.toHtml(out.toString()));
         String m = Tools.toHtml(cell.getWrapped() + "\n-----\n") + Tools.toCode(Tools.toHtml(out.toString()));
         cell.body("error:" + Tools.wrapInDiv(m));
+        //cell.body("error:" + m);
     }
 
     @Override
