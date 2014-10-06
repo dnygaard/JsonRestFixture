@@ -20,23 +20,20 @@
  */
 package smartrics.rest.fitnesse.fixture;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.hamcrest.CoreMatchers.instanceOf;
-import static org.hamcrest.CoreMatchers.is;
-import static org.junit.Assert.assertThat;
-
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-
 import org.apache.commons.httpclient.HttpURL;
 import org.apache.commons.httpclient.URI;
 import org.apache.commons.httpclient.URIException;
 import org.junit.Before;
 import org.junit.Test;
-
 import smartrics.rest.client.RestClient;
 import smartrics.rest.client.RestRequest;
 import smartrics.rest.fitnesse.fixture.support.Config;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
+import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 public class PartsFactoryTest {
 
