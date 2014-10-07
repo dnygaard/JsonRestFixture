@@ -379,6 +379,85 @@ public class JsonRestFixture extends RestFixture {
         }
     }
 
+    /* use https://github.com/skyscreamer/JSONassert more or less directly */
+
+    /**
+     * <code> | jsonAssertCompare | jsonCompareMode | actual | expected | result |</code>
+     * <p/>
+     * Compare two JSON data parameters using JsonAssert compare. The two JSON data parameters must be
+     * either a string with JSON data or the name of a file containing a JSON data string.
+     *
+     * If there is no difference between the two JSON objects, The String "No deviations" is returned as success.
+     * <p/>
+     * If there is a deviation, jsonCompareMode will trigger success or failure depending on the mode and on the deviation itself.
+     * <p/>
+     * For example, too many fields in the actual JSON object and a non-extendible mode such as STRICT or NON_EXTENSIBLE, will
+     * display a failure message, while the modes LENIENT or STRICT_ORDER will produce a successmessage, given no other deviations.
+     *
+     * <ul>
+     * <li/><code>jsonCompareMode</code> One of the JsonCompareMode enum values: STRICT, LENIENT, NON_EXTENSIBLE or STRICT_ORDER.
+     * <p/>
+     *
+     * <li/><code>actual</code> String with JSON data or the name of a file containing JSON data that the webservice being tested has produced.
+     * <p/>
+     *
+     * <li/><code>expected</code> String with JSON data or the name of a file containing JSON data that the tester requires the actual data to be compared to.
+     * <p/>
+     *
+     * <li/><code>result</code> Empty cell where the comparison result is presented. Any user input will be ignored.
+     * <p/>
+     * </ul>
+     *
+     * Filenames without any path will use current directory, i.e. FitNesseRoot directory.
+     * <p/>
+     *
+     * Example call: <br/>
+     * <code>| jsonAssertCompare | LENIENT | ./files/someFile.tmp | {"foo":"bar"} | | </code><br/>
+     *
+     * <p/>
+     *
+     * See JSONAssert for more details - {@link https://github.com/skyscreamer/JSONassert}.
+     */
+    @SuppressWarnings({ "unchecked", "rawtypes" })
+    public void jsonAssertCompare() {
+        debugMethodCallStart();
+        if (row.size() != 5) {
+            getFormatter().exception(row.getCell(row.size() - 1), "Not all cells found: | jsonAssertCompare | jsonCompareMode | actual | expected | result |");
+            debugMethodCallEnd();
+            return;
+        }
+        CellWrapper jsonCompareModeCell = row.getCell(1);
+        CellWrapper actualCell = row.getCell(2);
+        CellWrapper expectedCell = row.getCell(3);
+        CellWrapper resultCell = row.getCell(4);
+        String actualStr = getJsonContentFromCellOrFileOrWriteErrorMessageToCell(actualCell, "ActualContent");
+        if (null == actualStr) {
+            debugMethodCallEnd();
+            return;
+        }
+        String expectedStr = getJsonContentFromCellOrFileOrWriteErrorMessageToCell(expectedCell, "ExpectedContent");
+        if (null == expectedStr) {
+            debugMethodCallEnd();
+            return;
+        }
+        try {
+            String diffMessage = JsonTools.compare(expectedStr, actualStr, jsonCompareModeCell.text());
+            if ("".equals(diffMessage)) {
+                resultCell.body("pass:" + Tools.wrapInDiv(getFormatter().label("[No deviations found.]")));
+            } else {
+                resultCell.body("fail:" + Tools.wrapInDiv(diffMessage));
+            }
+            debugMethodCallEnd();
+            return;
+        } catch (Exception e) {
+            resultCell.body(e.getMessage());
+            getFormatter().wrong(resultCell, new StringTypeAdapter());
+            debugMethodCallEnd();
+            return;
+        }
+    }
+
+
     /**
      * Verify that cell contains a Jsonformatted string or the name of a file containing a
      * Jsonformatted string returning the string in both cases. If both verifications fail set

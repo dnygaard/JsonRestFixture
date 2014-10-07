@@ -660,6 +660,23 @@ public class JsonRestFixtureTest {
         return argument;
     }
 
+    /* ===================  jsonAssertCompare  ======================== */
+
+    @Test
+    @SuppressWarnings("unchecked")
+    public void mustReportToTheUserIfJsonAssertCompareCellsAreMissing() {
+        RowWrapper<?> row = helper.createTestRow("jsonAssertCompare"); //missing parameters: strict, expected, actual, result
+        fixture.processRow(row);
+        row = helper.createTestRow("jsonAssertCompare", "LENIENT"); //missing parameters: expected, actual, result
+        fixture.processRow(row);
+        row = helper.createTestRow("jsonAssertCompare", "LENIENT", "{\"foo\": \"bar\"}"); //missing parameters: actual, result
+        fixture.processRow(row);
+        row = helper.createTestRow("jsonAssertCompare", "LENIENT", "{\"foo\": \"bar\"}", LEGAL_JS_STRING); //missing parameters: result
+        fixture.processRow(row);
+        verify(mockCellFormatter, times(4)).exception(isA(CellWrapper.class), eq("Not all cells found: | jsonAssertCompare | jsonCompareMode | actual | expected | result |"));
+        verifyNoMoreInteractions(mockCellFormatter);
+    }
+
     /* ===================  getJsonString  ======================== */
 
     @Test
