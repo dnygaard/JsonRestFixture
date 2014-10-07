@@ -25,6 +25,8 @@ Changes
 Changes 20141007
 - Synchronized with latest changes in RestFixture.
 - Add new JsonRestFixture function jsonAssertCompare that uses JsonAssert's compare functionality.
+ 
+
 Changes 20140918
 - Add JsonRestFixture to accomodate Json string specific REST call testing.
 (See JsonRestFixture API for details.)
