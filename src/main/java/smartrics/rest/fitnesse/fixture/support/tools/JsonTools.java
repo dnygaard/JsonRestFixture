@@ -79,30 +79,47 @@ public class JsonTools {
      * @throws IOException some JSON data conversion function failed.
      */
     public static String compare(Object expectedJSON, Object actualJSON, Boolean strict) throws IOException {
-        if (null == expectedJSON || !((expectedJSON instanceof String) || (expectedJSON instanceof JSONObject))) {
-            throw new IllegalArgumentException("Expected Json must be a java.util.String or a org.json.JSONObject.");
+        validateJsonParameters(expectedJSON, actualJSON);
+        JSONCompareMode strictMode = null;
+        if (strict) {
+            strictMode = JSONCompareMode.NON_EXTENSIBLE;
+        } else {
+            strictMode = JSONCompareMode.LENIENT;
         }
-        if (null == actualJSON || !((actualJSON instanceof String) || (actualJSON instanceof JSONObject))) {
-            throw new IllegalArgumentException("Actual Json must be a java.util.String or a org.json.JSONObject.");
-        }
+        return compareJSON(expectedJSON, actualJSON, strictMode);
+    }
 
-        if (!expectedJSON.getClass().getName().equals(actualJSON.getClass().getName())) {
-            throw new IllegalArgumentException(String.format("ExpectedJson[%s] and actualJson[%s] must be of same type.",
-                                                expectedJSON.getClass().getName(),
-                                                actualJSON.getClass().getName()));
-        }
+    /**
+     * Validate and compare two JSON objects with JSONCompareMode as a stringvalue.
+     *
+     * @param expectedJSON expected JSONObject or JSON as String.
+     * @param actualJSON actual JSONObject or JSON as String.
+     * @param jsonCompareModeStr JSONCompareMode as String.
+     * @return Empty string if the two objects are equal in JSON value otherwise return deviation as a string.
+     * @throws IOException Json parsing error.
+     */
+    public static String compare(Object expectedJSON, Object actualJSON, String jsonCompareModeStr) throws IOException {
+        validateJsonParameters(expectedJSON, actualJSON);
+        JSONCompareMode jsonCompareMode = parseJsonCompareMode(jsonCompareModeStr);
+        return compareJSON(expectedJSON, actualJSON, jsonCompareMode);
+    }
+
+    /**
+     * Compare two JSON objects with JSONCompareMode as parameter using JsonAssert compare functionality.
+     *
+     * @param expectedJSON expected JSONObject or JSON as String
+     * @param actualJSON actual JSONObject or JSON as String.
+     * @param jsonCompareMode JSONCompareMode enum.
+     * @return Empty string if the two objects are equal in JSON value otherwise return deviation as a string.
+     * @throws IOException
+     */
+    private static String compareJSON(Object expectedJSON, Object actualJSON, JSONCompareMode jsonCompareMode) throws IOException {
+        JSONCompareResult jsonCompareResult = null;
         try {
-            JSONCompareMode strictMode = null;
-            if (strict) {
-                strictMode = JSONCompareMode.NON_EXTENSIBLE;
-            } else {
-                strictMode = JSONCompareMode.LENIENT;
-            }
-            JSONCompareResult jsonCompareResult = null;
             if (expectedJSON instanceof JSONObject) {
-                jsonCompareResult = JSONCompare.compareJSON((JSONObject) expectedJSON, (JSONObject) actualJSON, strictMode);
+                jsonCompareResult = JSONCompare.compareJSON((JSONObject) expectedJSON, (JSONObject) actualJSON, jsonCompareMode);
             } else {
-                jsonCompareResult = JSONCompare.compareJSON((String) expectedJSON, (String) actualJSON, strictMode);
+                jsonCompareResult = JSONCompare.compareJSON((String) expectedJSON, (String) actualJSON, jsonCompareMode);
             }
             if (null == jsonCompareResult) {
                 throw new IOException("Unexpected comparasin parameter, neither String nor JSONObject.");
@@ -158,5 +175,51 @@ public class JsonTools {
      */
     public static String toJSONString(Object object) {
         return new JsonParseTools().convertObjectToJson(object);
+    }
+
+    /**
+     * Validate if compare objects are one of String or JSONObject and that both objects are of the same type.
+     *
+     * @param expectedJSON inputparameter 1.
+     * @param actualJSON inputparameter 2.
+     */
+    protected static void validateJsonParameters(Object expectedJSON, Object actualJSON) {
+        String errMsgGeneralpart = "Json must be a java.util.String or a org.json.JSONObject.";
+        if (null == expectedJSON || !((expectedJSON instanceof String) || (expectedJSON instanceof JSONObject))) {
+            throw new IllegalArgumentException("Expected " + errMsgGeneralpart);
+        }
+        if (null == actualJSON || !((actualJSON instanceof String) || (actualJSON instanceof JSONObject))) {
+            throw new IllegalArgumentException("Actual " +errMsgGeneralpart);
+        }
+
+        if (!expectedJSON.getClass().getName().equals(actualJSON.getClass().getName())) {
+            throw new IllegalArgumentException(String.format("ExpectedJson[%s] and actualJson[%s] must be of same type.",
+                                                expectedJSON.getClass().getName(),
+                                                actualJSON.getClass().getName()));
+        }
+    }
+
+    /**
+     * Parse a string, extract JSONCompareMode enum or throw a readable exception if the value
+     * does not parse.
+     *
+     * @param jsonCompareModeStr string to parse.
+     * @return JSONCompareMode enum value or throws IllegalArguementException.
+     */
+    protected static JSONCompareMode parseJsonCompareMode(String jsonCompareModeStr) {
+        if (null == jsonCompareModeStr) {
+            StringBuffer errMsg = new StringBuffer("jsonCompareMode parameter must be one of:");
+            for (JSONCompareMode mode : JSONCompareMode.values()) {
+                errMsg.append(" " + mode.name());
+            }
+            errMsg.append(".");
+            throw new IllegalArgumentException(errMsg.toString());
+        }
+        try {
+            return JSONCompareMode.valueOf(jsonCompareModeStr);
+        } catch (IllegalArgumentException iae) {
+            //not a JSONCompareMode, throw same exception as for null.
+            return parseJsonCompareMode(null);
+        }
     }
 }
