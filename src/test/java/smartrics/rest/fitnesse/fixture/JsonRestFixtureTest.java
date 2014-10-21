@@ -683,7 +683,7 @@ public class JsonRestFixtureTest {
         RowWrapper<?> row = helper.createTestRow("jsonAssertCompare", "LENIENT", LEGAL_JS_STRING, LEGAL_JS_STRING, "");
         fixture.processRow(row);
         verify(mockCellFormatter, times(0)).exception(isA(CellWrapper.class), eq("Not all cells found: | jsonAssertCompare | jsonCompareMode | actual | expected | result |"));
-        verifyNoMoreInteractions(mockCellFormatter);
+        verify(row.getCell(4), times(1)).body(startsWith("fail:<div>null</div>"));
     }
 
     /* ===================  getJsonString  ======================== */
